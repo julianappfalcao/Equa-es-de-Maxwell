@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maxwell: guia interativo de Eletromagnetismo</title>
+<style>
+:root{--bg:#f6f4ee;--sf:#fff;--tx:#1d2330;--mu:#5d6577;--ac:#c2410c;--bl:#1d4ed8;--gr:#15803d;--bd:#ddd8cb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--sf:#1b2030;--tx:#eef0f5;--mu:#9aa3b8;--ac:#fb923c;--bl:#7aa2ff;--gr:#4ade80;--bd:#2c3348}}
+:root[data-theme="dark"]{--bg:#12151c;--sf:#1b2030;--tx:#eef0f5;--mu:#9aa3b8;--ac:#fb923c;--bl:#7aa2ff;--gr:#4ade80;--bd:#2c3348}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:calc(60px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.65 Georgia,serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--sf);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;gap:6px;align-items:center;padding:8px 14px;overflow-x:auto;white-space:nowrap;font:600 13px system-ui,sans-serif}
+header a{color:var(--tx);text-decoration:none;padding:5px 10px;border-radius:999px}header a:hover{background:var(--bd)}header b{color:var(--ac);margin-right:8px}
+main{max-width:860px;margin:0 auto;padding:0 18px 60px}
+section{padding:46px 0 10px;border-bottom:1px solid var(--bd)}
+h1{font-size:clamp(34px,7vw,60px);line-height:1.08;margin:.4em 0}h2{font-size:clamp(25px,4vw,36px);margin:.2em 0 .4em}h3{font:700 18px system-ui,sans-serif;margin:1.2em 0 .3em}
+.k{font:700 12px system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ac)}
+.mu{color:var(--mu)}.eq{font:clamp(17px,2.8vw,24px) 'Cambria Math',Cambria,Georgia,serif;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:10px 0;overflow-x:auto;white-space:nowrap}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:14px 18px;margin:12px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+button{font:600 14px system-ui,sans-serif;border:1px solid var(--bd);background:var(--sf);color:var(--tx);border-radius:999px;padding:8px 14px;cursor:pointer}
+button.sel{background:var(--ac);border-color:var(--ac);color:#fff}button:disabled{opacity:.5}
+.tag{font:700 12px system-ui,sans-serif;padding:2px 8px;border-radius:6px;background:var(--bd);margin-right:6px}
+input[type=range]{width:100%;accent-color:var(--ac)}label{font:600 14px system-ui,sans-serif;display:block;margin-top:8px}
+.big{font:700 26px system-ui,sans-serif;color:var(--ac)}.ok{color:var(--gr)}.no{color:#dc2626}
+.st{display:none}.st.show{display:block}svg text{fill:var(--mu);font:12px system-ui,sans-serif}
+table{border-collapse:collapse;width:100%;font:14px system-ui,sans-serif}td,th{border:1px solid var(--bd);padding:6px 8px;text-align:left;vertical-align:top}th{background:var(--sf)}
+</style></head><body>
+<header><b>⚡ Maxwell</b><a href="#mapa">Mapa</a><a href="#leis">As 4 leis</a><a href="#gauss">Gauss</a><a href="#faraday">Faraday</a><a href="#ampere">Ampère–Maxwell</a><a href="#onda">Ondas</a><a href="#energia">Energia</a><a href="#rlc">Circuitos</a><a href="#materiais">Materiais</a><a href="#exemplo">Exercício</a><a href="#revisao">Revisão</a><button id="th">◐</button></header>
+<main>
+<section style="padding-top:60px"><div class="k">Fundamentos de Eletromagnetismo</div>
+<h1>Quatro equações,<br>um universo de campos</h1>
+<p>Este guia reúne a disciplina em uma só página: cada lei vem com explicação, símbolos, armadilhas comuns e uma simulação para você mexer. Role a página, clique nos botões e arraste os controles.</p>
+<div class="eq">∮E·dA = q/ε₀ &nbsp; ∮B·dA = 0 &nbsp; ∮E·dl = −dΦ<sub>B</sub>/dt &nbsp; ∮B·dl = μ₀i + μ₀ε₀dΦ<sub>E</sub>/dt</div>
+<p class="mu">Como estudar: 1) entenda o que cada lei diz em palavras; 2) identifique qual grandeza é fonte de qual campo; 3) teste valores extremos nos simuladores e preveja o resultado antes de olhar.</p></section>
+
+<section id="mapa"><div class="k">Visão geral</div><h2>Mapa da disciplina</h2>
+<p>As leis foram descobertas no laboratório, uma a uma. Maxwell as reuniu, percebeu uma incoerência na lei de Ampère e a corrigiu, prevendo as ondas eletromagnéticas. Clique nas etapas.</p>
+<div class="row" id="map"></div><div class="card" id="mapi"></div></section>
+
+<section id="leis"><div class="k">O núcleo</div><h2>As quatro equações em detalhe</h2>
+<div class="row" id="tabs"></div>
+<div class="eq" id="e1"></div><div class="eq" id="e2"></div>
+<div class="card" id="e3"></div></section>
+
+<section id="gauss"><div class="k">Simulador 1</div><h2>Lei de Gauss e lei de Coulomb</h2>
+<p>Envolva uma carga pontual q com uma esfera (gaussiana) de raio r. Por simetria E é radial e constante na esfera, então ∮E·dA = E·4πr² = q/ε₀. Isolando E obtemos E = q/(4πε₀r²), que é a lei de Coulomb em forma de campo. Observe: o <b>fluxo</b> não depende de r; o <b>campo</b> cai com r².</p>
+<div class="grid"><div class="card"><label>Carga q: <span id="vq"></span> nC</label><input id="q" type="range" min="-10" max="10" step="1" value="5">
+<label>Raio da gaussiana r: <span id="vrg"></span> cm</label><input id="rg" type="range" min="1" max="50" step="1" value="10">
+<p>Fluxo Φ = q/ε₀ = <span class="big" id="phi"></span></p><p>Campo E = <span class="big" id="eg"></span></p></div>
+<div class="card"><svg id="gs" viewBox="0 0 200 200" width="100%"></svg><p class="mu" style="font-size:14px">Carga negativa: o fluxo é negativo (linhas entrando). Carga zero: fluxo nulo, mesmo com campo de outras fontes fora da superfície.</p></div></div>
+<h3>Armadilhas</h3><p>Gauss é sempre verdadeira, mas só <i>calcula</i> E quando há simetria esférica, cilíndrica ou plana. Cargas fora da superfície contribuem para E, mas não para o fluxo total.</p></section>
+
+<section id="faraday"><div class="k">Simulador 2</div><h2>Faraday–Lenz: indução eletromagnética</h2>
+<p>Uma bobina de N espiras e área A é atravessada por um campo B perpendicular ao plano, com B apontando para fora da tela. A fem induzida é ε = −N·A·dB/dt. O sinal negativo é a lei de Lenz: a corrente induzida cria um campo que <b>se opõe à variação do fluxo</b>, o que evita criar energia do nada.</p>
+<div class="grid"><div class="card"><label>dB/dt: <span id="vb"></span> T/s</label><input id="db" type="range" min="-5" max="5" step="0.5" value="2">
+<label>Área A: <span id="va"></span> cm²</label><input id="ar" type="range" min="10" max="500" step="10" value="100">
+<label>Espiras N: <span id="vn"></span></label><input id="nn" type="range" min="1" max="200" step="1" value="20">
+<p>ε = <span class="big" id="fem"></span></p><p id="lz"></p></div>
+<div class="card"><svg viewBox="0 0 200 200" width="100%"><circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" opacity=".5" stroke-width="3"/><g id="arr"></g><text x="70" y="104">⊙ B (para fora)</text></svg><p class="mu" style="font-size:14px">A seta mostra o sentido da corrente induzida visto de frente.</p></div></div>
+<p>Aplicações: geradores, transformadores, fogões de indução, carregadores sem fio. Faraday mostra que o campo elétrico induzido <b>não é conservativo</b>: ∮E·dl ≠ 0.</p></section>
+
+<section id="ampere"><div class="k">Simulador 3</div><h2>Ampère–Maxwell e a corrente de deslocamento</h2>
+<p>Entre as placas de um capacitor em carga não há corrente de condução, mas o campo elétrico varia. Maxwell mostrou que esse E variável também gera B, via i<sub>D</sub> = ε₀dΦ<sub>E</sub>/dt. Placas circulares de raio R = 2 cm:</p>
+<div class="grid"><div class="card"><label>dE/dt: <span id="vde"></span></label><input id="de" type="range" min="1" max="10" step="0.5" value="5">
+<label>Distância r ao eixo: <span id="vr"></span> cm</label><input id="rr" type="range" min="1" max="6" step="0.1" value="1">
+<p>B(r) = <span class="big" id="bo"></span></p><p class="mu" id="bw"></p></div>
+<div class="card"><svg id="bp" viewBox="0 0 320 190" width="100%"></svg></div></div>
+<div id="d1"></div><div id="d2"></div></section>
+
+<section id="onda"><div class="k">Simulador 4</div><h2>De Maxwell à luz</h2>
+<p>Campos que variam geram um ao outro e se sustentam no espaço: E gera B (Ampère–Maxwell) e B gera E (Faraday). O resultado são ondas que viajam a c = 1/√(μ₀ε₀), onde E = cB. Escolha uma região do espectro:</p>
+<div class="row" id="pre"></div>
+<canvas id="wv" height="130" style="width:100%;background:var(--sf);border:1px solid var(--bd);border-radius:12px"></canvas>
+<div class="card" id="wo"></div><div id="d3"></div></section>
+
+<section id="energia"><div class="k">Simulador 6</div><h2>Energia dos campos e vetor de Poynting</h2>
+<p>Campos armazenam energia. Densidade elétrica: u<sub>E</sub> = ½ε₀E². Magnética: u<sub>B</sub> = B²/(2μ₀). Numa onda no vácuo B = E/c, e como c² = 1/(μ₀ε₀) as duas são <b>iguais</b>: u = ε₀E². A energia viaja com a onda, e o vetor de Poynting S = (1/μ₀)E×B dá a potência por unidade de área e a direção de propagação. Sua média no tempo é a <b>intensidade</b> I = ½cε₀E₀². Uma onda absorvida exerce ainda <b>pressão de radiação</b> P = I/c.</p>
+<div class="card"><label>Amplitude E₀: <span id="vpe"></span> V/m</label><input id="pe" type="range" min="1" max="1000" step="1" value="100">
+<p>B₀ = E₀/c = <b id="pb"></b><br>Densidade de energia máx. u = ε₀E₀² = <b id="pu"></b><br>Intensidade I = <span class="big" id="pi"></span><br>Pressão de radiação (absorção total) = <b id="pp"></b></p>
+<p class="mu">Com E₀ ≈ 1000 V/m você chega perto da luz solar acima da atmosfera (~1,4 kW/m²). Dobrar E₀ quadruplica I.</p></div>
+<p><b>Teorema de Poynting</b> (conservação de energia): −∂u/∂t = ∇·S + J·E. A energia que sai do volume mais o trabalho feito sobre as cargas equivale à perda de energia armazenada.</p></section>
+
+<section id="rlc"><div class="k">Simulador 7</div><h2>Indutância e circuitos RL e LC</h2>
+<p>Uma corrente variável muda o fluxo na própria bobina e, por Faraday–Lenz, induz uma fem que se opõe à variação: ε = −L·di/dt, com L = NΦ/i. Para um solenoide, L = μ₀N²A/ℓ. A energia armazenada é U = ½Li². Num circuito RL ligado a uma fonte ε, a corrente sobe como i(t) = (ε/R)(1 − e^(−t/τ)), com τ = L/R.</p>
+<div class="grid"><div class="card"><b>RL (fonte de 10 V)</b><label>R: <span id="vR"></span> Ω</label><input id="iR" type="range" min="1" max="100" step="1" value="20">
+<label>L: <span id="vL"></span> mH</label><input id="iL" type="range" min="1" max="500" step="1" value="100">
+<p>τ = L/R = <span class="big" id="tau"></span></p><p>i<sub>máx</sub> = ε/R = <b id="imx"></b> &nbsp; U = ½Li² = <b id="uL"></b></p></div>
+<div class="card"><svg id="rlp" viewBox="0 0 320 190" width="100%"></svg><p class="mu" style="font-size:14px">Em t = τ a corrente chega a 63% do máximo; em 5τ, a 99%.</p></div></div>
+<div class="card"><b>LC: oscilador eletromagnético</b><p class="mu">A energia oscila entre o campo elétrico do capacitor (q²/2C) e o magnético do indutor (½Li²). Sem resistência, ω₀ = 1/√(LC). Com resistência (RLC), a oscilação amortece, com ω′ = √(ω₀² − (R/2L)²).</p>
+<label>L: <span id="vL2"></span> mH</label><input id="iL2" type="range" min="1" max="500" step="1" value="50">
+<label>C: <span id="vC"></span> μF</label><input id="iC" type="range" min="1" max="500" step="1" value="20">
+<p>f₀ = <span class="big" id="f0"></span> &nbsp; T = <b id="T0"></b></p></div></section>
+
+<section id="materiais"><div class="k">Simuladores 8 e 9</div><h2>Campos na matéria e ímãs</h2>
+<p>Em dielétricos, as moléculas se polarizam e criam um campo que reduz o campo total: E = E₀/κ, onde κ é a constante dielétrica, e ε = κε₀. Numa capacitância, C = κC₀. A lei de Gauss na matéria usa só a carga livre: ∮κE·dA = q<sub>livre</sub>. De forma geral, ∇·D = ρ<sub>livre</sub> e ∇×H = J<sub>livre</sub> + ∂D/∂t, com D = εE e B = μH. Materiais magnéticos têm μ = μ<sub>r</sub>μ₀: diamagnéticos (μ<sub>r</sub> ≲ 1, repelem levemente), paramagnéticos (μ<sub>r</sub> ≳ 1) e ferromagnéticos (μ<sub>r</sub> ≫ 1, com histerese e ímãs permanentes).</p>
+<div class="card"><b>Capacitor (A = 100 cm², d = 1 mm, carga fixa Q = 1 nC)</b><label>κ: <span id="vk"></span></label><input id="ik" type="range" min="1" max="80" step="1" value="1">
+<p>C = κC₀ = <b id="kc"></b> &nbsp; V = Q/C = <b id="kv"></b> &nbsp; E = <span class="big" id="ke"></span></p><p class="mu">Água ≈ 80, vidro ≈ 5–10, ar ≈ 1. Com Q fixa, κ maior ⇒ E e V menores.</p></div>
+<div class="card"><b>Gauss magnético: quebre o ímã</b><p class="mu">Corte o ímã ao meio quantas vezes quiser: nunca sobra um polo isolado. É por isso que ∮B·dA = 0.</p>
+<div class="row"><button id="mb">Quebrar ao meio</button><button id="mr">Reiniciar</button></div><svg id="ms" viewBox="0 0 320 70" width="100%"></svg></div></section>
+
+<section id="exemplo"><div class="k">Simulador 5</div><h2>Exemplo 42.5: corrente de deslocamento senoidal</h2>
+<p>Área A = 0,20 m² no plano xy, E = E<sub>m</sub>cos(ωt) k̂. Como Φ<sub>E</sub> = EA, derivar dá i<sub>D</sub> = −ε₀ωE<sub>m</sub>A·sen(ωt), com ω = 2π/T. i<sub>D</sub> = 0 quando ωt = nπ, isto é, t = nT/2.</p>
+<div class="card"><label>Período T: <span id="vT"></span> μs</label><input id="iT" type="range" min="1" max="10" step="0.5" value="4">
+<label>E<sub>m</sub>: <span id="vE"></span>×10⁵ N/C</label><input id="iE" type="range" min="1" max="15" step="0.5" value="8">
+<p>ω = <b id="oW"></b> &nbsp; Amplitude = <span class="big" id="oA"></span></p><p id="oZ"></p>
+<p class="mu">Dados da apostila: T = 4 μs, E<sub>m</sub> = 8,00×10⁵ N/C → ≈ 2,2 A, zeros em 0; 2; 4; 6 μs…</p></div></section>
+
+<section id="revisao"><div class="k">Fechamento</div><h2>Cola de revisão e quiz</h2>
+<div style="overflow-x:auto"><table><tr><th></th><th>Faraday</th><th>Ampère–Maxwell</th></tr>
+<tr><td>Integral</td><td>∮E·dl = −dΦ<sub>B</sub>/dt</td><td>∮B·dl = μ₀i + μ₀ε₀dΦ<sub>E</sub>/dt</td></tr>
+<tr><td>Fonte</td><td>B variável</td><td>Corrente + E variável</td></tr>
+<tr><td>Sinal</td><td>Negativo (Lenz)</td><td>Positivo (mão direita)</td></tr></table></div>
+<div class="grid"><div class="card"><b>Constantes</b><p>ε₀ ≈ 8,854×10⁻¹² C²/(N·m²)<br>μ₀ = 4π×10⁻⁷ T·m/A<br>c ≈ 2,998×10⁸ m/s</p></div>
+<div class="card"><b>Teoremas</b><p>Gauss: ∮E·dA = ∫∇·E dV<br>Stokes: ∮E·dl = ∫(∇×E)·dA</p></div></div>
+<h3>Quiz</h3><p class="mu">Placar: <b id="sc">0</b>/12</p><div id="qz"></div></section>
+</main>
+<script>
+var $=function(i){return document.getElementById(i)},MU0=4*Math.PI*1e-7,E0=8.854e-12,K=8.988e9,C=1/Math.sqrt(MU0*E0);
+function fx(x,d){return x.toExponential(d).replace('e+','×10^').replace('e-','×10^-').replace('.',',')}
+function nm(x,d){return x.toFixed(d).replace('.',',')}
+$('th').onclick=function(){var r=document.documentElement,d=r.getAttribute('data-theme');r.setAttribute('data-theme',d==='dark'||(!d&&matchMedia('(prefers-color-scheme:dark)').matches)?'light':'dark')};
+function btns(id,arr,fn){arr.forEach(function(a,i){var b=document.createElement('button');b.textContent=a;b.onclick=function(){[].forEach.call($(id).children,function(x,j){x.classList.toggle('sel',j===i)});fn(i)};$(id).appendChild(b)})}
+/* mapa */
+var MP=[['Coulomb','F = kq₁q₂/r². Descreve a força entre cargas pontuais e leva ao conceito de campo elétrico E = F/q. É a base da eletrostática; Gauss a reproduz numa esfera.'],
+['Gauss','O fluxo de E por uma superfície fechada mede a carga líquida interna. Equivale a Coulomb, mas é muito mais poderosa quando há simetria.'],
+['Gauss magnético','Não existem monopolos magnéticos conhecidos: ao partir um ímã surgem dois ímãs completos. As linhas de B são fechadas, logo o fluxo total é zero.'],
+['Ampère','Correntes geram campo magnético que circula ao redor delas: ∮B·dl = μ₀i. Funciona bem em situações estáticas.'],
+['Faraday–Lenz','Fluxo magnético variável induz fem e campo elétrico não conservativo. Lenz fixa o sentido: a corrente induzida se opõe à variação.'],
+['Maxwell','Percebeu que a lei de Ampère violava a conservação da carga quando E varia, adicionou a corrente de deslocamento e previu ondas eletromagnéticas. Hertz as detectou depois.']];
+btns('map',MP.map(function(m,i){return (i+1)+'. '+m[0]}),function(i){$('mapi').innerHTML='<b>'+MP[i][0]+'</b><p>'+MP[i][1]+'</p>'});$('mapi').innerHTML='<span class="mu">Selecione uma etapa.</span>';
+/* leis */
+var LW=[
+['Gauss (E)','∮E·dA = q/ε₀','∇·E = ρ/ε₀','<b>Em palavras:</b> o fluxo elétrico por qualquer superfície fechada é proporcional à carga líquida dentro dela. <b>Símbolos:</b> q é a carga interna, ε₀ a permissividade do vácuo. <b>Fonte:</b> cargas elétricas, que existem isoladas. <b>Uso:</b> escolha uma gaussiana simétrica. <b>Erro comum:</b> achar que cargas externas mudam o fluxo.'],
+['Gauss (B)','∮B·dA = 0','∇·B = 0','<b>Em palavras:</b> o mesmo número de linhas de B entra e sai de qualquer superfície fechada. <b>Fonte:</b> nenhuma “carga magnética”; um ímã sempre tem N e S. Se um monopolo fosse achado, a lei mudaria. O nome é por analogia: não foi Gauss que a formulou.'],
+['Faraday','∮E·dl = −dΦ_B/dt','∇×E = −∂B/∂t','<b>Em palavras:</b> variar o fluxo magnético através de uma superfície cria um campo elétrico circulante e uma fem na curva que a contorna. <b>Símbolos:</b> Φ_B = ∫B·dA. O − é Lenz. <b>Erro comum:</b> esquecer que o fluxo varia se B, A ou o ângulo mudarem.'],
+['Ampère–Maxwell','∮B·dl = μ₀i + μ₀ε₀ dΦ_E/dt','∇×B = μ₀J + μ₀ε₀ ∂E/∂t','<b>Em palavras:</b> B circula em torno de correntes de condução e de campos elétricos que variam. <b>Símbolos:</b> o termo ε₀dΦ_E/dt é a corrente de deslocamento i_D, com unidade de ampère. <b>Erro comum:</b> usar só i dentro de um capacitor; ali i = 0 e i_D é quem gera B.']];
+btns('tabs',LW.map(function(l){return l[0]}),function(i){var l=LW[i];$('e1').innerHTML='<span class="tag">Integral</span>'+l[1].replace('_B','<sub>B</sub>').replace('_E','<sub>E</sub>');$('e2').innerHTML='<span class="tag">Diferencial</span>'+l[2];$('e3').innerHTML=l[3]});$('tabs').children[0].click();
+/* gauss */
+function gs(){var q=+$('q').value,r=+$('rg').value;$('vq').textContent=q;$('vrg').textContent=r;
+$('phi').textContent=fx(q*1e-9/E0,2)+' N·m²/C';$('eg').textContent=q?fx(K*q*1e-9/Math.pow(r/100,2),2)+' V/m':'0 V/m';
+var col=q>=0?'#c2410c':'#1d4ed8',a='';for(var i=0;i<8;i++){var t=i*Math.PI/4,x1=100+(10+Math.abs(q))*Math.cos(t),y1=100+(10+Math.abs(q))*Math.sin(t),x2=100+(r*1.8)*Math.cos(t),y2=100+(r*1.8)*Math.sin(t);if(q)a+='<line x1="'+(q>0?x1:x2)+'" y1="'+(q>0?y1:y2)+'" x2="'+(q>0?x2:x1)+'" y2="'+(q>0?y2:y1)+'" stroke="'+col+'" stroke-width="1.5" opacity=".7"/>'}
+$('gs').innerHTML='<circle cx="100" cy="100" r="'+(r*1.8)+'" fill="none" stroke="currentColor" stroke-dasharray="5" opacity=".5"/>'+a+'<circle cx="100" cy="100" r="'+(4+Math.abs(q)*.8)+'" fill="'+col+'"/>'}
+$('q').oninput=gs;$('rg').oninput=gs;gs();
+/* faraday */
+function fa(){var d=+$('db').value,A=+$('ar').value,N=+$('nn').value;$('vb').textContent=nm(d,1);$('va').textContent=A;$('vn').textContent=N;
+var e=-N*A*1e-4*d;$('fem').textContent=nm(e*1000,1)+' mV';
+$('lz').textContent=d>0?'B para fora aumenta → o induzido cria B para dentro → corrente horária.':d<0?'B para fora diminui → o induzido reforça B para fora → corrente anti-horária.':'Fluxo constante → sem fem.';
+$('arr').innerHTML=d===0?'':'<g transform="'+(d>0?'':'translate(200,0) scale(-1,1)')+'"><path d="M100 40 A60 60 0 0 1 160 100" fill="none" stroke="#c2410c" stroke-width="5"/><polygon points="160,112 150,92 170,92" fill="#c2410c"/></g>'}
+$('db').oninput=fa;$('ar').oninput=fa;$('nn').oninput=fa;fa();
+/* capacitor */
+var R=0.02;function cp(){var d=+$('de').value*1e11,r=+$('rr').value/100,B=function(x){return x<=R?MU0*E0*x*d/2:MU0*E0*R*R*d/(2*x)};
+$('vde').textContent=nm(+$('de').value/10,2)+'×10¹² V/(m·s)';$('vr').textContent=nm(r*100,1);$('bo').textContent=nm(B(r)*1e9,1)+' nT';
+$('bw').textContent=r<=R?'r ≤ R: B = ½μ₀ε₀ r dE/dt (cresce linearmente)':'r ≥ R: B = μ₀ε₀R²/(2r)·dE/dt (cai como 1/r, igual ao campo do fio)';
+var p=[],mx=B(R),X=function(x){return 30+x/0.06*270};for(var i=1;i<=60;i++)p.push(X(i/1000).toFixed(1)+','+(160-B(i/1000)/mx*120).toFixed(1));
+$('bp').innerHTML='<line x1="30" y1="160" x2="300" y2="160" stroke="currentColor" opacity=".3"/><line x1="'+X(R)+'" y1="30" x2="'+X(R)+'" y2="160" stroke="currentColor" stroke-dasharray="4" opacity=".4"/><text x="'+(X(R)+4)+'" y="40">R</text><text x="290" y="178">r</text><text x="4" y="30">B</text><polyline points="'+p.join(' ')+'" fill="none" stroke="#c2410c" stroke-width="2.5"/><circle cx="'+X(r)+'" cy="'+(160-B(r)/mx*120)+'" r="6" fill="#1d4ed8"/>'}
+$('de').oninput=cp;$('rr').oninput=cp;cp();
+/* derivações passo a passo */
+function stp(id,title,S){var box=$(id),n=1,h='<h3>'+title+'</h3><div class="row"><button class="nx"></button><button class="rs">Reiniciar</button></div>';
+S.forEach(function(s){h+='<div class="st card"><b>'+s[0]+'</b><br>'+s[1]+'</div>'});box.innerHTML=h;var els=box.querySelectorAll('.st'),b=box.querySelector('.nx');
+function sh(){[].forEach.call(els,function(e,i){e.classList.toggle('show',i<n)});b.disabled=n>=els.length;b.textContent=n>=els.length?'Fim':'Próximo passo ('+n+'/'+els.length+')'}
+b.onclick=function(){n++;sh()};box.querySelector('.rs').onclick=function(){n=1;sh()};sh()}
+stp('d1','Passo a passo: por que Ampère precisava de um termo novo',[
+['1. Conservação local da carga','A carga que some de V atravessa a superfície S: <div class="eq">−dq/dt = ∮j·n dS</div>'],
+['2. Use Gauss','q = ε₀∮E·n dS ⇒ dq/dt = ε₀ d/dt ∮E·n dS.'],
+['3. Junte','<div class="eq">∮j·n dS + ε₀ d/dt ∮E·n dS = 0</div>Se E é estático, sobra ∮j·n dS = 0 (1ª lei de Kirchhoff).'],
+['4. O problema','Ampère original, com C encolhendo a um ponto, dá sempre ∮j·n dS = 0, mesmo com E variando. Isso contradiz a conservação da carga. Em forma diferencial, ∇·(∇×B)=0 forçaria ∇·J=0.'],
+['5. A correção','<div class="eq">∮B·dl = μ₀(i + i_D), i_D = ε₀dΦ_E/dt</div>Agora ∇·(J+ε₀∂E/∂t)=0 é coerente. Fluxo elétrico crescente: B segue a regra da mão direita; decrescente: sentido oposto.'],
+['6. Verificação no capacitor','q = CV = (ε₀A/d)Ed = ε₀Φ_E ⇒ i_C = dq/dt = ε₀dΦ_E/dt = i_D. A corrente “fecha” entre as placas. Para r ≤ R, B·2πr = μ₀ε₀πr²dE/dt; para r ≥ R, B·2πr = μ₀ε₀πR²dE/dt = μ₀i_C, igual ao fio.']]);
+stp('d2','Passo a passo: forma diferencial e equação de onda (vácuo)',[
+['1. Rotacional de Faraday','∇×(∇×E) = −∂/∂t(∇×B)'],
+['2. Identidade vetorial','∇×(∇×E) = ∇(∇·E) − ∇²E = −∇²E, pois ∇·E = 0.'],
+['3. Ampère–Maxwell','−∇²E = −μ₀ε₀ ∂²E/∂t²'],
+['4. Resultado','<div class="eq">∇²E = μ₀ε₀∂²E/∂t² &nbsp; ∇²B = μ₀ε₀∂²B/∂t²</div>'],
+['5. Velocidade','Comparando com ∇²f = (1/v²)∂²f/∂t²: v = 1/√(μ₀ε₀) = c ≈ 3,00×10⁸ m/s. Onda plana: E = E₀cos(kz−ωt)x̂, B = (E₀/c)cos(kz−ωt)ŷ, ω = ck. E, B e a propagação são mutuamente perpendiculares.']]);
+$('d3').innerHTML='';
+/* onda */
+var PR=[['Rádio FM',1e8],['Wi‑Fi',2.4e9],['Luz verde',5.45e14],['Raios X',3e18]],F=1e8,t=0;
+btns('pre',PR.map(function(p){return p[0]}),function(i){F=PR[i][1];var l=C/F;$('wo').innerHTML='f = '+fx(F,2)+' Hz<br>λ = c/f = <span class="big">'+fx(l,2)+' m</span><br>T = 1/f = '+fx(1/F,2)+' s<br>Se E₀ = 100 V/m, B₀ = E₀/c = '+fx(100/C,2)+' T.<br>c = 1/√(μ₀ε₀) = '+fx(C,3)+' m/s para todas.'});$('pre').children[0].click();
+var cv=$('wv'),cx=cv.getContext('2d');function dw(){var w=cv.clientWidth;if(cv.width!==w)cv.width=w;var h=cv.height,m=h/2,wl=260-(Math.log10(F)-8)*20,cs=getComputedStyle(document.documentElement);cx.clearRect(0,0,w,h);cx.lineWidth=2.5;
+[['--ac',48],['--bl',26]].forEach(function(a){cx.strokeStyle=cs.getPropertyValue(a[0]).trim();cx.beginPath();for(var x=0;x<=w;x+=3){var y=m-Math.sin(2*Math.PI*x/wl-t)*a[1];x?cx.lineTo(x,y):cx.moveTo(x,y)}cx.stroke()});t+=.05;requestAnimationFrame(dw)}dw();
+/* energia */
+function pw(){var E=+$('pe').value;$('vpe').textContent=E;$('pb').textContent=fx(E/C,2)+' T';$('pu').textContent=fx(E0*E*E,2)+' J/m³';var I=.5*C*E0*E*E;$('pi').textContent=fx(I,2)+' W/m²';$('pp').textContent=fx(I/C,2)+' Pa'}$('pe').oninput=pw;pw();
+/* RL e LC */
+function rl(){var R=+$('iR').value,L=+$('iL').value/1000,tau=L/R,im=10/R;$('vR').textContent=R;$('vL').textContent=nm(L*1000,0);$('tau').textContent=fx(tau,2)+' s';$('imx').textContent=nm(im,2)+' A';$('uL').textContent=fx(.5*L*im*im,2)+' J';
+var p=[];for(var i=0;i<=50;i++){var x=i/10;p.push((30+x/5*270).toFixed(1)+','+(160-(1-Math.exp(-x))*120).toFixed(1))}
+$('rlp').innerHTML='<line x1="30" y1="160" x2="300" y2="160" stroke="currentColor" opacity=".3"/><line x1="30" y1="40" x2="300" y2="40" stroke="currentColor" stroke-dasharray="4" opacity=".4"/><text x="34" y="34">i máx</text><text x="280" y="178">t</text><text x="'+(30+54)+'" y="178">τ</text><polyline points="'+p.join(' ')+'" fill="none" stroke="#c2410c" stroke-width="2.5"/><circle cx="84" cy="'+(160-(1-Math.exp(-1))*120)+'" r="5" fill="#1d4ed8"/>'}
+$('iR').oninput=rl;$('iL').oninput=rl;rl();
+function lc(){var L=+$('iL2').value/1000,Cc=+$('iC').value*1e-6,w=1/Math.sqrt(L*Cc);$('vL2').textContent=nm(L*1000,0);$('vC').textContent=nm(Cc*1e6,0);$('f0').textContent=nm(w/2/Math.PI,1)+' Hz';$('T0').textContent=nm(2*Math.PI/w*1000,2)+' ms'}$('iL2').oninput=lc;$('iC').oninput=lc;lc();
+/* dielétrico e ímã */
+function dk(){var k=+$('ik').value,C0=E0*0.01/0.001,Cc=k*C0,V=1e-9/Cc;$('vk').textContent=k;$('kc').textContent=nm(Cc*1e12,1)+' pF';$('kv').textContent=nm(V,2)+' V';$('ke').textContent=nm(V/0.001,1)+' V/m'}$('ik').oninput=dk;dk();
+var mp=1;function mg(){var w=300/mp-4,s='';for(var i=0;i<mp;i++){var x=10+i*(300/mp);s+='<rect x="'+x+'" y="10" width="'+w/2+'" height="36" fill="#dc2626"/><rect x="'+(x+w/2)+'" y="10" width="'+w/2+'" height="36" fill="#1d4ed8"/>'+(mp<=8?'<text x="'+(x+w/4-3)+'" y="33" style="fill:#fff">N</text><text x="'+(x+3*w/4-3)+'" y="33" style="fill:#fff">S</text>':'')}$('ms').innerHTML=s+'<text x="10" y="64">'+mp+(mp>1?' ímãs, cada um com N e S':' ímã')+'</text>'}
+$('mb').onclick=function(){if(mp<16){mp*=2;mg()}};$('mr').onclick=function(){mp=1;mg()};mg();
+/* ex 42.5 */
+function e5(){var T=+$('iT').value,Em=+$('iE').value,w=2*Math.PI/(T*1e-6),A=E0*w*Em*1e5*0.2,z=[];$('vT').textContent=nm(T,1);$('vE').textContent=nm(Em,1);
+$('oW').textContent=nm(w/1e6,3)+'×10⁶ rad/s';$('oA').textContent=nm(A,2)+' A';for(var n=0;n<5;n++)z.push(nm(n*T/2,1));$('oZ').textContent='i_D = 0 em t = '+z.join('; ')+' μs…'}
+$('iT').oninput=e5;$('iE').oninput=e5;e5();
+/* quiz */
+var QZ=[['Cargas fora de uma superfície gaussiana alteram…',['o fluxo total','o campo E, mas não o fluxo total','nada'],1,'O campo no ponto depende de todas as cargas, mas o fluxo total só da carga interna.'],
+['Por que ∮B·dA = 0?',['Há monopolos','Linhas de B são fechadas e não existem monopolos','B é sempre uniforme'],1,'Tudo que entra sai: o fluxo líquido é zero.'],
+['O sinal negativo em Faraday expressa…',['Conservação de energia (Lenz)','Carga negativa','Campo estático'],0,'A corrente induzida se opõe à variação do fluxo.'],
+['Entre as placas de um capacitor em carga, quem gera B?',['A corrente de condução','A corrente de deslocamento','Nada'],1,'i_C = 0 ali, mas dΦ_E/dt ≠ 0.'],
+['Qual combinação dá c?',['μ₀ + ε₀','1/√(μ₀ε₀)','μ₀ε₀'],1,'1/c² = μ₀ε₀.'],
+['Em onda plana no vácuo, a razão E/B vale…',['c','1/c','1'],0,'E = cB.'],
+['Numa onda eletromagnética no vácuo, as densidades de energia u_E e u_B são…',['u_E = 2u_B','iguais','u_B = 0'],1,'Com B = E/c e c² = 1/(μ₀ε₀), ½ε₀E² = B²/(2μ₀).'],
+['O vetor de Poynting S = E×B/μ₀ aponta…',['na direção de propagação, transportando energia','paralelo a E','paralelo a B'],0,'S é perpendicular a E e B, que também são perpendiculares entre si.'],
+['Se a amplitude E₀ de uma onda dobra, a intensidade…',['dobra','quadruplica','não muda'],1,'I = ½cε₀E₀² é proporcional a E₀².'],
+['Num circuito RL ligado a uma fonte, em t = τ a corrente chega a cerca de…',['37% do máximo','63% do máximo','99% do máximo'],1,'i = i_máx(1 − e⁻¹) ≈ 0,63 i_máx.'],
+['Num circuito LC, aumentar L (com C fixo) faz a frequência f₀…',['aumentar','diminuir','não mudar'],1,'f₀ = 1/(2π√(LC)): L maior, f₀ menor.'],
+['Um dielétrico (κ > 1) entre as placas de um capacitor com carga fixa faz o campo E…',['aumentar κ vezes','diminuir κ vezes','não mudar'],1,'E = E₀/κ: a polarização do material reduz o campo.']],S=0;
+QZ.forEach(function(q,i){var d=document.createElement('div');d.className='card';d.innerHTML='<b>'+(i+1)+'. '+q[0]+'</b>';var r=document.createElement('div');r.className='row';var f=document.createElement('p'),done=0;
+q[1].forEach(function(o,j){var b=document.createElement('button');b.textContent=o;b.onclick=function(){if(done)return;done=1;if(j===q[2]){S++;$('sc').textContent=S}f.innerHTML=(j===q[2]?'<span class="ok">✔ Correto.</span> ':'<span class="no">✘ Não.</span> ')+q[3]};r.appendChild(b)});d.appendChild(r);d.appendChild(f);$('qz').appendChild(d)});
+</script></main></body></html>
